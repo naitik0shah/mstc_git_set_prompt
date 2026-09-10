@@ -749,7 +749,7 @@
             ctx.restore();
         }
 
-        // DRAW ENEMY JET / SPACE CRAFT MODELS
+        // DRAW ENEMY FIGHTER PLANES (Leveled Designs)
         function drawEnemyJet(ctx, e) {
             ctx.save();
             ctx.translate(e.x, e.y);
@@ -759,41 +759,80 @@
             ctx.lineWidth = 1.5;
             ctx.shadowBlur = 8; ctx.shadowColor = e.color;
 
-            if (e.typeIndex === 0) { // Fast Scout
-                ctx.beginPath();
-                ctx.moveTo(0, e.radius);
-                ctx.lineTo(-e.radius, -e.radius);
-                ctx.lineTo(0, -e.radius * 0.4);
-                ctx.lineTo(e.radius, -e.radius);
-                ctx.closePath();
-            } else if (e.typeIndex === 1) { // Medium Strike Craft
-                ctx.beginPath();
-                ctx.moveTo(0, e.radius);
-                ctx.lineTo(-e.radius * 0.7, e.radius * 0.2);
-                ctx.lineTo(-e.radius, -e.radius);
-                ctx.lineTo(0, -e.radius * 0.5);
-                ctx.lineTo(e.radius, -e.radius);
-                ctx.lineTo(e.radius * 0.7, e.radius * 0.2);
-                ctx.closePath();
-            } else { // Heavy Bomber
-                ctx.beginPath();
-                ctx.moveTo(0, e.radius);
-                ctx.lineTo(e.radius, 0);
-                ctx.lineTo(e.radius * 0.6, -e.radius);
-                ctx.lineTo(-e.radius * 0.6, -e.radius);
-                ctx.lineTo(-e.radius, 0);
-                ctx.closePath();
+            const r = e.radius;
+            ctx.beginPath();
+            
+            if (e.typeIndex === 0) { 
+                // LEVEL 1: Light Swept-Wing Fighter
+                ctx.moveTo(0, r); // Nose
+                ctx.lineTo(r*0.15, r*0.4); // Right fuselage
+                ctx.lineTo(r, -r*0.2); // Right wingtip
+                ctx.lineTo(r*0.3, -r*0.4); // Right wing inner
+                ctx.lineTo(r*0.4, -r*0.9); // Right tail
+                ctx.lineTo(0, -r*0.7); // Center back exhaust
+                ctx.lineTo(-r*0.4, -r*0.9); // Left tail
+                ctx.lineTo(-r*0.3, -r*0.4); // Left wing inner
+                ctx.lineTo(-r, -r*0.2); // Left wingtip
+                ctx.lineTo(-r*0.15, r*0.4); // Left fuselage
+            } else if (e.typeIndex === 1) { 
+                // LEVEL 2: Medium Stealth Delta-Wing Fighter
+                ctx.moveTo(0, r); // Nose
+                ctx.lineTo(r*0.2, r*0.6); // Canard root
+                ctx.lineTo(r*0.4, r*0.5); // Canard tip
+                ctx.lineTo(r*0.25, r*0.2); // Wing root front
+                ctx.lineTo(r, -r*0.6); // Right wingtip
+                ctx.lineTo(r*0.7, -r*0.9); // Right wing back
+                ctx.lineTo(r*0.2, -r*0.7); // Engine right
+                ctx.lineTo(0, -r); // Center tail
+                ctx.lineTo(-r*0.2, -r*0.7); // Engine left
+                ctx.lineTo(-r*0.7, -r*0.9); // Left wing back
+                ctx.lineTo(-r, -r*0.6); // Left wingtip
+                ctx.lineTo(-r*0.25, r*0.2); // Wing root front
+                ctx.lineTo(-r*0.4, r*0.5); // Canard tip
+                ctx.lineTo(-r*0.2, r*0.6); // Canard root
+            } else { 
+                // LEVEL 3: Heavy Bomber / Gunship
+                ctx.moveTo(0, r); // Nose
+                ctx.lineTo(r*0.25, r*0.6); // Cockpit right
+                ctx.lineTo(r*0.25, r*0.1); // Wing root front
+                ctx.lineTo(r*0.9, -r*0.1); // Right wingtip
+                ctx.lineTo(r*0.9, -r*0.4); // Right wing back
+                ctx.lineTo(r*0.3, -r*0.4); // Engine mount right
+                ctx.lineTo(r*0.4, -r*0.9); // Right tail
+                ctx.lineTo(r*0.15, -r*0.9); // Right elevator
+                ctx.lineTo(0, -r*0.6); // Center back
+                ctx.lineTo(-r*0.15, -r*0.9); // Left elevator
+                ctx.lineTo(-r*0.4, -r*0.9); // Left tail
+                ctx.lineTo(-r*0.3, -r*0.4); // Engine mount left
+                ctx.lineTo(-r*0.9, -r*0.4); // Left wing back
+                ctx.lineTo(-r*0.9, -r*0.1); // Left wingtip
+                ctx.lineTo(-r*0.25, r*0.1); // Wing root front
+                ctx.lineTo(-r*0.25, r*0.6); // Cockpit left
             }
 
+            ctx.closePath();
             ctx.fill();
             ctx.stroke();
-            ctx.shadowBlur = 0;
 
+            // Cockpit Canopy Design for realistic plane aesthetic
+            ctx.fillStyle = currentTheme === 'dark' ? '#ffffff' : '#0a0a0a';
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            if (e.typeIndex === 0) {
+                ctx.ellipse(0, r*0.2, r*0.15, r*0.3, 0, 0, Math.PI*2);
+            } else if (e.typeIndex === 1) {
+                ctx.ellipse(0, r*0.3, r*0.15, r*0.4, 0, 0, Math.PI*2);
+            } else {
+                ctx.ellipse(0, r*0.5, r*0.2, r*0.3, 0, 0, Math.PI*2);
+            }
+            ctx.fill();
+
+            // HP Ring Indicator
             if (e.maxHp > 1) {
                 ctx.strokeStyle = '#ffffff';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.arc(0, 0, e.radius + 4, 0, (Math.PI * 2) * (e.hp / e.maxHp));
+                ctx.arc(0, 0, e.radius + 6, 0, (Math.PI * 2) * (e.hp / e.maxHp));
                 ctx.stroke();
             }
 
