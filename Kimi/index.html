@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NEBULA STRIKE — Space Shooter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Starfield Background -->
+    <div class="stars stars-far"></div>
+    <div class="stars stars-mid"></div>
+    <div class="stars stars-near"></div>
+    <div class="nebula"></div>
+
+    <!-- Game Container -->
+    <div id="game-container">
+        <!-- HUD (Heads-Up Display) -->
+        <div id="hud" class="hidden">
+            <div class="hud-left">
+                <div class="hud-item">
+                    <span class="hud-label">SCORE</span>
+                    <span id="score" class="hud-value">0</span>
+                </div>
+                <div class="hud-item">
+                    <span class="hud-label">HI-SCORE</span>
+                    <span id="high-score" class="hud-value">0</span>
+                </div>
+            </div>
+            
+            <div class="hud-center">
+                <div id="level-display">LEVEL 1</div>
+                <div id="health-bar-container">
+                    <div id="health-bar"></div>
+                    <span id="health-text">100</span>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <button id="pause-btn" class="icon-btn" title="Pause (P)">⏸</button>
+                <button id="restart-btn" class="icon-btn" title="Restart (R)">↻</button>
+                <button id="mute-btn" class="icon-btn" title="Mute (M)">🔊</button>
+            </div>
+        </div>
+
+        <!-- Active Power-up Indicators -->
+        <div id="powerup-indicators" class="hidden">
+            <div id="shield-indicator" class="powerup-badge hidden">🛡 SHIELD</div>
+            <div id="rapid-indicator" class="powerup-badge hidden">⚡ RAPID FIRE</div>
+            <div id="double-indicator" class="powerup-badge hidden">✨ 2X SCORE</div>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Mobile Touch Controls -->
+        <div id="mobile-controls" class="hidden">
+            <div class="control-group">
+                <button id="btn-left" class="touch-btn">◀</button>
+                <button id="btn-right" class="touch-btn">▶</button>
+            </div>
+            <button id="btn-shoot" class="touch-btn shoot-btn">🔥</button>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="overlay-screen">
+            <div class="screen-content">
+                <h1 class="game-title">NEBULA<span>STRIKE</span></h1>
+                <p class="subtitle">DEEP SPACE COMBAT PROTOCOL</p>
+                
+                <div class="instructions">
+                    <div class="control-hint">
+                        <span class="key">←</span><span class="key">→</span> or <span class="key">A</span><span class="key">D</span> — MOVE
+                    </div>
+                    <div class="control-hint">
+                        <span class="key space">SPACE</span> — SHOOT
+                        <span class="key" style="margin-left: 15px;">P</span> — PAUSE
+                    </div>
+                </div>
+
+                <div class="powerup-legend">
+                    <div class="legend-item"><span class="legend-icon shield">🛡</span> Shield — Absorbs damage</div>
+                    <div class="legend-item"><span class="legend-icon rapid">⚡</span> Rapid Fire — 3x fire rate</div>
+                    <div class="legend-item"><span class="legend-icon double">✨</span> Double Score — 2x points</div>
+                </div>
+
+                <button id="start-btn" class="btn-primary">INITIATE LAUNCH</button>
+                <p class="high-score-display">HIGH SCORE: <span id="menu-high-score">0</span></p>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="overlay-screen hidden">
+            <div class="screen-content">
+                <h2 class="pause-title">PAUSED</h2>
+                <p class="pause-sub">Systems on standby</p>
+                <button id="resume-btn" class="btn-primary">RESUME MISSION</button>
+                <button id="pause-restart-btn" class="btn-secondary">RESTART</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="overlay-screen hidden">
+            <div class="screen-content">
+                <h2 class="gameover-title">MISSION FAILED</h2>
+                <div class="final-stats">
+                    <div class="stat-row">
+                        <span>FINAL SCORE</span>
+                        <span id="final-score" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>LEVEL REACHED</span>
+                        <span id="final-level" class="stat-value">1</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>ENEMIES DESTROYED</span>
+                        <span id="final-kills" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-row new-record hidden" id="new-record">
+                        <span>🏆 NEW HIGH SCORE!</span>
+                    </div>
+                </div>
+                <button id="gameover-restart-btn" class="btn-primary">RETRY MISSION</button>
+                <button id="menu-btn" class="btn-secondary">MAIN MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
